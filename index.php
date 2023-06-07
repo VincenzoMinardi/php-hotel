@@ -39,12 +39,12 @@ $hotels = [
 
 ];
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $filterHotel = [];
 
     foreach ($hotels as $hotel) {
-        $voteFilter = $_POST['vote'] ?? '';
-        $parkingFilter = isset($_POST['parking']) ? (bool)$_POST['parking'] : false;
+        $voteFilter = $_GET['vote'] ?? '';
+        $parkingFilter = isset($_GET['parking']) ? $_GET['parking'] : false;
         if (
             ($parkingFilter === false || $hotel['parking'] === $parkingFilter) &&
             (empty($voteFilter) || $hotel['vote'] == $voteFilter)
@@ -74,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
     <h1>Lista HOTELBOOL</h1>
 
-    <form method="POST">
+    <form method="GET">
 
         <div class="form-group">
             <label class="mb-1 .text-dark" for="vote">Voto recensione da 0 a 5</label>
