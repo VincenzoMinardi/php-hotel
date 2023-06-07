@@ -38,6 +38,23 @@ $hotels = [
     ],
 
 ];
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $filterHotel = [];
+
+    foreach ($hotels as $hotel) {
+        $voteFilter = $_POST['vote'] ?? '';
+        $parkingFilter = isset($_POST['parking']) ? (bool)$_POST['parking'] : false;
+        if (
+            ($parkingFilter === false || $hotel['parking'] === $parkingFilter) &&
+            (empty($voteFilter) || $hotel['vote'] == $voteFilter)
+        ) {
+            $filterHotel[] = $hotel;
+        }
+    }
+} else {
+    $filterHotel = $hotels;
+}
 ?>
 
 
@@ -57,16 +74,20 @@ $hotels = [
 <body>
     <h1>Lista HOTELBOOL</h1>
 
-    <form action="index.php" method="GET">
-        <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Hotel con Parcheggio</label>
-            <input type="text" name="parking" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+    <form method="POST">
+
+        <div class="form-group">
+            <label class="mb-1 .text-dark" for="vote">Voto recensione da 0 a 5</label>
+            <input type="number" class="form-control" id="vote" name="vote" placeholder="Inserisci il voto recensione da 0 a 5">
         </div>
-        <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Hotel in base alle recensioni </label>
-            <input type="text" name="vote" class="form-control">
+        <div class="form-group">
+            <div class="form-check mt-4">
+                <input class="form-check-input" type="checkbox" id="parking" name="parking" value="1">
+                <label clas class="form-check-label" for="parking">Parcheggio disponibile</label>
+            </div>
         </div>
-        <button type="submit" class="btn btn-primary">Cerca</button>
+
+        <button type="submit" class="btn btn-primary mt-4">Filtra</button>
     </form>
 
 
@@ -84,11 +105,11 @@ $hotels = [
             </tr>
         </thead>
         <tbody>
-            <?php foreach ($hotels as $element) { ?>
+            <?php foreach ($filterHotel as $element) { ?>
                 <tr class="text-center">
                     <td class="bg-warning"><?php echo $element['name'] ?></td>
                     <td class="bg-info"><?php echo $element['description'] ?></td>
-                    <td class="bg-secondary"><?php echo $element['parking'] ?></td>
+                    <td class="bg-secondary"><?php echo $element['parking'] ? 'Disponibile' : 'Non disponibile' ?></td>
                     <td class="bg-danger-subtle"><?php echo  $element['vote'] ?></td>
                     <td class="bg-success"><?php echo $element['distance_to_center'] ?> km</td>
                 <?php } ?>
