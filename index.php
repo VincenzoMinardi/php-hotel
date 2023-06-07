@@ -1,4 +1,5 @@
 <?php
+
 $hotels = [
     [
         'name' => 'Hotel Belvedere',
@@ -39,6 +40,7 @@ $hotels = [
 ];
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -53,9 +55,27 @@ $hotels = [
 </head>
 
 <body>
+    <h1>Lista HOTELBOOL</h1>
+
+    <form action="index.php" method="GET">
+        <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Hotel con Parcheggio</label>
+            <input type="text" name="parking" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+        </div>
+        <div class="mb-3">
+            <label for="exampleInputPassword1" class="form-label">Hotel in base alle recensioni </label>
+            <input type="text" name="vote" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-primary">Cerca</button>
+    </form>
+
+
+
+
+
     <table class="table">
         <thead>
-            <tr>
+            <tr class="text-center ">
                 <th scope="col">Nome</th>
                 <th scope="col">Descrizione</th>
                 <th scope="col">Parcheggio</th>
@@ -65,12 +85,12 @@ $hotels = [
         </thead>
         <tbody>
             <?php foreach ($hotels as $element) { ?>
-                <tr>
-                    <td><?php echo $element['name'] ?></td>
-                    <td><?php echo $element['description'] ?></td>
-                    <td><?php echo $element['parking'] ?></td>
-                    <td><?php echo  $element['vote'] ?></td>
-                    <td><?php echo $element['distance_to_center'] ?></td>
+                <tr class="text-center">
+                    <td class="bg-warning"><?php echo $element['name'] ?></td>
+                    <td class="bg-info"><?php echo $element['description'] ?></td>
+                    <td class="bg-secondary"><?php echo $element['parking'] ?></td>
+                    <td class="bg-danger-subtle"><?php echo  $element['vote'] ?></td>
+                    <td class="bg-success"><?php echo $element['distance_to_center'] ?> km</td>
                 <?php } ?>
                 </tr>
 
